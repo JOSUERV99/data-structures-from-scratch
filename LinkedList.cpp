@@ -15,7 +15,11 @@ public:
 	bool contains(T); // true if contains the T element
 	bool isEmpty(); // true if the length equals zero
 
-	void add(T); // add an element to the end
+	void push_back(T); // add an element to the end
+	void push_front(T); // add an element to the begin
+	T pop_back(); // pop and return the last value
+	T pop_front(); // pop and return the first value
+
 	void setValue(int, T); // change the T element of the node on the given index
 	void erase(T); // erase the T element
 	void clear(); // clear the list, delete every node
@@ -77,7 +81,7 @@ bool LinkedList<T>::isEmpty() {
 }
 
 template <class T>
-void LinkedList<T>::add(T value) {
+void LinkedList<T>::push_back(T value) {
 	if (!begin) 
 		begin = end = new Node<T>(value);
 	else {

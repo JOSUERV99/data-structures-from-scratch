@@ -3,11 +3,11 @@ class Node {
 public:
 	// primitive values
 	T value;
-	Node *next;
+	Node *next, *parent;
 	
 	// builders
-	Node(T value): value(value), next(nullptr) {}
-	Node(T value, Node *next): value(value), next(next) {}
+	Node(T value): value(value), next(nullptr), parent(nullptr) {}
+	Node(T value, Node *next): value(value), next(next), parent(nullptr) {}
 
 	// methods
 	T getValue() { return this->value; }
