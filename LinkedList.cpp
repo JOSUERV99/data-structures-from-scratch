@@ -1,10 +1,10 @@
 template <class T>
 class LinkedList {
-protected:
+public:
 	// attributes
 	int length;
 	Node<T> *begin, *end;
-public:
+
 	// builders
 	LinkedList(): length(0), begin(nullptr), end(nullptr) {} // default builder
 
@@ -82,12 +82,14 @@ bool LinkedList<T>::isEmpty() {
 
 template <class T>
 void LinkedList<T>::push_back(T value) {
-	if (!begin) 
+	if (!begin) {
 		begin = end = new Node<T>(value);
-	else {
-		end->next = new Node<T>(value);
-		end = end->next;
+		length++;
+		return;
 	}
+	
+	end->next = new Node<T>(value);
+	end = end->next;
 	length++;
 }
 

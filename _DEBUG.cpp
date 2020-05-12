@@ -1,11 +1,9 @@
 #include "_DS_FromScratch.cpp"
 
 class Object {
-public:
 	int val;
 	Object() : val(0) {}
 	Object(int value) : val(value) {}
-
 	//overwriting operators
 	friend ostream& operator << (ostream &o,const Object &p) {
     	o << p.val;
@@ -15,20 +13,17 @@ public:
 
 int main() {
 
-	Queue<int> queue;
+	BinaryTree<int> tree;
 
-	queue.push(1);
-	queue.push(2);
-	queue.push(3);
-	queue.push(4);
-	queue.push(5);
+	tree.insert(5);	
+	tree.insert(4);	
+	tree.insert(6);	
+	tree.insert(5);	
+	tree.insert(1);	
 
-	while(!queue.isEmpty()) {
-		std::cout << "Size: " << queue.size() << " -> "<< queue.base() << std::endl;
-		queue.pop();
-	}
+	auto lst = tree.preOrder();
+	for ( auto i = lst->begin; i != lst->end; i = i->next )
+		std::cout << i->getValue() << (i->next != lst->end ? "," : " " );
 
-	std::cout << queue.size() << std::endl;
-
-	return 0;
+	return EXIT_SUCCESS;
 }

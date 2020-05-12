@@ -13,4 +13,5 @@
 #include"LinkedList.cpp"
 #include"Stack.cpp"
 #include"Queue.cpp"
-#include"BinaryNode.cpp"
+#include"TreeNode.cpp"
+#include"BinaryTree.cpp"
