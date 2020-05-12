@@ -2,12 +2,15 @@
 
 // libraries needed
 #include<stdio.h>
-#include<math.h>
 #include<stdlib.h>
+
 #include<iostream>
+#include<exception>
 
 // data structures from scratch
 #include"Node.cpp"
 #include"Utils.cpp"
 #include"LinkedList.cpp"
 #include"Stack.cpp"
+#include"Queue.cpp"
+#include"BinaryNode.cpp"

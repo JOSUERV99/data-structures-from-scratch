@@ -2,7 +2,7 @@ template <class T>
 class Stack {
 protected:
 	// attributes
-	int length;
+	int length = 0;
 	Node<T> *begin, *end;
 public:
 	// builders
@@ -13,7 +13,7 @@ public:
 	bool isEmpty(); // true if the length equals zero
 
 	void push(T); // add an element to the end
-	T pop(); // pop and return the last value
+	void pop(); // pop and return the last value
 	T top(); // return the last value
 	T base(); // return the first value
 
@@ -39,7 +39,7 @@ int Stack<T>::size() {
 
 template <class T>
 bool Stack<T>::isEmpty() {
-	return length == 0;
+	return length <= 0;
 }
 
 template <class T>
@@ -55,14 +55,21 @@ void Stack<T>::push(T value) {
 }
 
 template <class T>	
-T Stack<T>::pop() {
-	T retValue;
-	if (!isEmpty()){
-		retValue = end->getValue();
-		end = end->parent;
-		end->next = nullptr;
-	}
-	return retValue;
+void Stack<T>::pop() {
+	if (!isEmpty()) {
+		Node<T> *iter = end;
+
+		if(begin == iter) 
+			begin = end = nullptr;
+		else  {
+			end = end->parent;
+			end->next = nullptr;
+		}
+
+		delete iter;
+		length--;
+	} else 
+		exit(EXIT_FAILURE);
 }
 
 template <class T>	

@@ -15,29 +15,20 @@ public:
 
 int main() {
 
-	Stack<Object> stck;
+	Queue<int> queue;
 
-	Object o1(1);
-	Object o2(2);
-	Object o3(3);
-	Object o4(4);
-	Object o5(5);
+	queue.push(1);
+	queue.push(2);
+	queue.push(3);
+	queue.push(4);
+	queue.push(5);
 
-	stck.push(o1);
-	stck.push(o2);
-	stck.push(o3);
-	stck.push(o4);
-	stck.push(o5);
+	while(!queue.isEmpty()) {
+		std::cout << "Size: " << queue.size() << " -> "<< queue.base() << std::endl;
+		queue.pop();
+	}
 
-	std::cout << stck << std::endl;
-
-	stck.pop();
-	stck.pop();
-	stck.pop();
-
-	std::cout << stck << std::endl;
-	std::cout << stck.top() << std::endl;
-	std::cout << stck.base() << std::endl;
+	std::cout << queue.size() << std::endl;
 
 	return 0;
 }

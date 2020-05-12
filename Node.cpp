@@ -3,7 +3,7 @@ class Node {
 public:
 	// primitive values
 	T value;
-	Node *next, *parent;
+	Node<T> *next, *parent;
 	
 	// builders
 	Node(T value): value(value), next(nullptr), parent(nullptr) {}
@@ -11,5 +11,4 @@ public:
 
 	// methods
 	T getValue() { return this->value; }
-	void link(Node *node) { this->next = node; }
 };
