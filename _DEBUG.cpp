@@ -21,9 +21,11 @@ int main() {
 	tree.insert(5);	
 	tree.insert(1);	
 
+	cout << tree.size() << endl;
+
 	auto lst = tree.preOrder();
-	for ( auto i = lst->begin; i != lst->end; i = i->next )
-		std::cout << i->getValue() << (i->next != lst->end ? "," : " " );
+	for ( auto i = lst.begin; i != nullptr; i = i->next )
+		std::cout << i->getValue() << ",";
 
 	return EXIT_SUCCESS;
 }
