@@ -6,7 +6,7 @@ class Object {
 	Object(int value) : val(value) {}
 	//overwriting operators
 	friend ostream& operator << (ostream &o,const Object &p) {
-    	o << p.val;
+    	o << "[" << p.val << "]";
 		return o;
 	}
 };
@@ -19,13 +19,16 @@ int main() {
 	tree.insert(4);	
 	tree.insert(6);	
 	tree.insert(5);	
-	tree.insert(1);	
+	tree.insert(1);
 
-	cout << tree.size() << endl;
+	cout << "Size: " << tree.size() << endl;
 
-	auto lst = tree.preOrder();
-	for ( auto i = lst.begin; i != nullptr; i = i->next )
-		std::cout << i->getValue() << ",";
+	cout << 9 << " " << tree.search(9) << endl;
+	cout << 1 << " " << tree.search(1) << endl;
+
+	cout << "PreOrden: " << tree.preOrder() << endl;
+	cout << "PostOrden: " << tree.postOrder() << endl;
+	cout << "InOrden: "  << tree.inOrder() << endl;
 
 	return EXIT_SUCCESS;
 }

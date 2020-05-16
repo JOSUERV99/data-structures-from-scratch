@@ -36,7 +36,7 @@ public:
 				o << ", ";
 			iter = iter->next;
 		}
-		o << " ]" << std::endl;
+		o << " ]";
 		return o;
 	}
 };
