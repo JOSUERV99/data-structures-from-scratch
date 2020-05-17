@@ -2,14 +2,15 @@ template <class T>
 class BinaryTree {
 private:
 	
-	int nodesAmount;
 	TreeNode<T> *root;
+	int nodesAmount;
 
 	void _insert(TreeNode<T>*&, TreeNode<T>*, TreeNode<T>*);
 	void _remove(TreeNode<T>*, TreeNode<T>*, TreeNode<T>*);
 	void _preOrder(TreeNode<T>*&, LinkedList<T>&);
 	void _postOrder(TreeNode<T>*&, LinkedList<T>&);
 	void _inOrder(TreeNode<T>*&, LinkedList<T>&);
+	void _remove(TreeNode<T>*&, T);
 	bool _search(TreeNode<T>*&, T);
 
 public:
@@ -32,6 +33,36 @@ public:
 template <class T>
 int BinaryTree<T>::size() {	
 	return nodesAmount;
+}
+
+template <class T>
+void BinaryTree<T>::remove(T value) {
+	_remove(this->root, value);
+}
+
+template <class T>
+void BinaryTree<T>::_remove(TreeNode<T>* &node, T value) {
+	
+	if (!node) {
+		return;
+	}
+
+	if (node->getValue() == value) {
+
+		if ( !node->right && !node->left ) { // without childs node 
+			delete node;
+			node = nullptr;
+		}
+
+		nodesAmount--;
+		return;
+	}
+
+	if (node->getValue() < value) {
+		_remove( node->right, value );
+	} else {
+		_remove( node->left,  value );
+	}
 }
 
 template <class T>
