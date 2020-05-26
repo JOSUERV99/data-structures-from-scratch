@@ -1,33 +1,39 @@
 template <class T>
 class BinaryTree {
 private:
-	
+	// main components
 	TreeNode<T> *root;
 	int nodesAmount;
 
-	void _insert(TreeNode<T>*&, TreeNode<T>*, TreeNode<T>*);
-	void _remove(TreeNode<T>*, TreeNode<T>*, TreeNode<T>*);
-	void _preOrder(TreeNode<T>*&, LinkedList<T>&);
-	void _postOrder(TreeNode<T>*&, LinkedList<T>&);
-	void _inOrder(TreeNode<T>*&, LinkedList<T>&);
-	void _remove(TreeNode<T>*&, T);
-	bool _search(TreeNode<T>*&, T);
+	// recursive functions
+	void _insert   (TreeNode<T>*& root, TreeNode<T>* parent, TreeNode<T>* value);
+	void _preOrder (TreeNode<T>*& root, LinkedList<T>& aux);
+	void _postOrder(TreeNode<T>*& root, LinkedList<T>& aux);
+	void _inOrder  (TreeNode<T>*& root, LinkedList<T>& aux);
+	void _remove   (TreeNode<T>*& root, T value);
+	bool _search   (TreeNode<T>*& root, T value);
+
+	// auxiliar functions
+	TreeNode<T>* _changeRoot_Right(TreeNode<T>*&);
+	TreeNode<T>* _changeRoot_Left(TreeNode<T>*&);
 
 public:
-
+	// builders
 	BinaryTree(): root(nullptr), nodesAmount(0) {}
 
-	void insert(T value);
-	void remove(T value);
-	
-	LinkedList<T> preOrder();
-	LinkedList<T> inOrder();
+	// main functions
+	void insert  (T value);
+	void remove  (T value);
+	bool search  (T value);
+	bool contains(T value);
+
+	// utils
+	LinkedList<T>  preOrder();
+	LinkedList<T>   inOrder();
 	LinkedList<T> postOrder();
-	bool search(T);
 
 	int deep(T value);
 	int size();
-	bool contains(T value);
 };
 
 template <class T>
@@ -41,6 +47,41 @@ void BinaryTree<T>::remove(T value) {
 }
 
 template <class T>
+TreeNode<T>* BinaryTree<T>::_changeRoot_Right(TreeNode<T>*& node) {
+	auto *iter = node->right;
+
+	while (iter->left) iter = iter->left;
+
+	if (iter == node->right) {
+		iter->left = node->left;
+	} 
+	else {
+		iter->parent->left = iter->right;
+		iter->right = node->right;
+		iter->left = node->left;
+	}
+
+	return iter;
+}
+
+template <class T>
+TreeNode<T>* BinaryTree<T>::_changeRoot_Left(TreeNode<T>*& node) {
+	auto *iter = node->left;
+
+	while (iter->right) iter = iter->right;
+
+	if (iter == node->left) {
+		iter->right = node->right;
+	} 
+	else {
+		iter->parent->right = iter->left;
+		iter->left = node->left;
+		iter->right = node->right;
+	}
+	return iter;
+}
+
+template <class T>
 void BinaryTree<T>::_remove(TreeNode<T>* &node, T value) {
 	
 	if (!node) {
@@ -48,51 +89,17 @@ void BinaryTree<T>::_remove(TreeNode<T>* &node, T value) {
 	}
 
 	if (node->getValue() == value) {
-		
-		if (!node->left && !node->right) {
-			delete node;
-			node = nullptr;
+		TreeNode<T> *iter = nullptr;
+
+		if (node->left || node->right) {
+			if (node->right) 
+				iter = _changeRoot_Right(node);
+			 else 
+				iter = _changeRoot_Left(node);
 		} 
-		else if (node == root) {
 
-			// deleting main node
-			TreeNode<T> *iter = nullptr; 
-			if (node->right) {
-				iter = node->right;
-
-				while (iter->left) iter = iter->left;
-
-				if (iter == node->right) {
-					iter->left = node->left;
-				} 
-				else {
-					iter->parent->left = iter->right;
-					iter->right = node->right;
-					iter->left = node->left;
-				}
-
-			} else if (node->left) {
-				iter = node->left;
-
-				while (iter->right) iter = iter->right;
-
-				if (iter == node->left) {
-					iter->right = node->right;
-				} 
-				else {
-					iter->parent->right = iter->left;
-					iter->left = node->left;
-					iter->right = node->right;
-				}
-			}
-
-			delete node;
-			node = iter;
-		} else {
-
-
-		}
-
+		delete node;
+		node = iter;
 		nodesAmount--;
 		return;
 	}
