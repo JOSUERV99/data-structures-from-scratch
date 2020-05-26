@@ -3,17 +3,11 @@ class TreeNode {
 public:
 	// primitive values
 	T value;
+	int bf = 0;
 	TreeNode<T> *right, *left, *parent;
 	
 	// builders
 	TreeNode(T value): value(value), right(nullptr), left(nullptr), parent(nullptr) {}
-		
-	// // destructor
-	// ~TreeNode() {
-	// 	delete right;
-	// 	delete left;
-	// 	delete parent;
-	// }
 
 	// methods
 	T getValue() { return this->value; }

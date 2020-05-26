@@ -18,14 +18,14 @@ int main() {
 
 	tree.insert(5);
 	tree.insert(1);
-	tree.insert(7);
 	tree.insert(2);
-	tree.insert(9);
+	tree.insert(0);
+
 
 	cout << "InOrden: "  << tree.inOrder() << endl;
 	
-	tree.remove(2);
-
+	tree.remove(5);
+	
 	cout << "InOrden: "  << tree.inOrder() << endl;
 
 	return EXIT_SUCCESS;

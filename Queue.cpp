@@ -68,8 +68,9 @@ void Queue<T>::pop() {
 template <class T>	
 T Queue<T>::top() {
 	T retValue;
-	if (!end)
+	if (!end){
 		return retValue;
+	}
 	else 
 		return end->getValue();
 }

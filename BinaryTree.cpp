@@ -48,10 +48,49 @@ void BinaryTree<T>::_remove(TreeNode<T>* &node, T value) {
 	}
 
 	if (node->getValue() == value) {
-
-		if ( !node->right && !node->left ) { // without childs node 
+		
+		if (!node->left && !node->right) {
 			delete node;
 			node = nullptr;
+		} 
+		else if (node == root) {
+
+			// deleting main node
+			TreeNode<T> *iter = nullptr; 
+			if (node->right) {
+				iter = node->right;
+
+				while (iter->left) iter = iter->left;
+
+				if (iter == node->right) {
+					iter->left = node->left;
+				} 
+				else {
+					iter->parent->left = iter->right;
+					iter->right = node->right;
+					iter->left = node->left;
+				}
+
+			} else if (node->left) {
+				iter = node->left;
+
+				while (iter->right) iter = iter->right;
+
+				if (iter == node->left) {
+					iter->right = node->right;
+				} 
+				else {
+					iter->parent->right = iter->left;
+					iter->left = node->left;
+					iter->right = node->right;
+				}
+			}
+
+			delete node;
+			node = iter;
+		} else {
+
+
 		}
 
 		nodesAmount--;
