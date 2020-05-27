@@ -10,9 +10,11 @@
 
 // data structures from scratch
 #include"Node.cpp"
+#include"AVLNode.cpp"
 #include"Utils.cpp"
+#include"TreeNode.cpp"
 #include"LinkedList.cpp"
 #include"Stack.cpp"
 #include"Queue.cpp"
-#include"TreeNode.cpp"
 #include"BinaryTree.cpp"
+#include"AVLTree.cpp"

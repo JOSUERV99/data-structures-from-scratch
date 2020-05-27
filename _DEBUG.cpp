@@ -1,12 +1,13 @@
 #include "_DS_FromScratch.cpp"
 
+template<class T>
 class Object {
-	int val;
+	T val;
 	Object() : val(0) {}
-	Object(int value) : val(value) {}
+	Object(T value) : val(value) {}
 
 	//overwriting operators
-	friend ostream& operator << (ostream &o,const Object &p) {
+	friend ostream& operator << (ostream &o,const Object<T> &p) {
     	o << "[" << p.val << "]";
 		return o;
 	}
@@ -14,21 +15,20 @@ class Object {
 
 int main() {
 
-	BinaryTree<int> tree;
+	AVLTree<int> tree;
 
-	tree.insert(5);
+
 	tree.insert(1);
-	tree.insert(7);
-	tree.insert(9);
-	tree.insert(6);
 	tree.insert(2);
-	tree.insert(0);
+	tree.insert(3);
 
-	cout << "InOrden: "  << tree.inOrder() << endl;
-	
-	tree.remove(7);
-	
-	cout << "InOrden: "  << tree.inOrder() << endl;
+
+	cout << tree.inOrder() << endl;
+
+	tree.rotateLeft(tree.root);
+
+	cout << tree.inOrder() << endl;
+
 
 	return EXIT_SUCCESS;
 }
