@@ -7,15 +7,15 @@ private:
 
 	// recursive functions
 	void _insert   (TreeNode<T>*& root, TreeNode<T>* parent, TreeNode<T>* value);
-	void _preOrder (TreeNode<T>*& root, LinkedList<T>& aux);
-	void _postOrder(TreeNode<T>*& root, LinkedList<T>& aux);
-	void _inOrder  (TreeNode<T>*& root, LinkedList<T>& aux);
+	void _preOrder (TreeNode<T>*& root, LinkedList<T>& collection);
+	void _postOrder(TreeNode<T>*& root, LinkedList<T>& collection);
+	void _inOrder  (TreeNode<T>*& root, LinkedList<T>& collection);
 	void _remove   (TreeNode<T>*& root, T value);
 	bool _search   (TreeNode<T>*& root, T value);
 
 	// auxiliar functions
-	TreeNode<T>* _changeRoot_Right(TreeNode<T>*&);
-	TreeNode<T>* _changeRoot_Left(TreeNode<T>*&);
+	TreeNode<T>* _changeRoot_Right(TreeNode<T>*& node);
+	TreeNode<T>* _changeRoot_Left(TreeNode<T>*& node);
 
 public:
 	// builders
@@ -88,7 +88,7 @@ void BinaryTree<T>::_remove(TreeNode<T>* &node, T value) {
 		return;
 	}
 
-	if (node->getValue() == value) {
+	if (node->val() == value) {
 		TreeNode<T> *iter = nullptr;
 
 		if (node->left || node->right) {
@@ -104,7 +104,7 @@ void BinaryTree<T>::_remove(TreeNode<T>* &node, T value) {
 		return;
 	}
 
-	if (node->getValue() < value) {
+	if (node->val() < value) {
 		_remove( node->right, value );
 	} else {
 		_remove( node->left,  value );
@@ -120,9 +120,9 @@ template <class T>
 bool BinaryTree<T>::_search(TreeNode<T>*& node, T value) {	
 	if (!node) 
 		return false;
-	if (node->getValue() == value)
+	if (node->val() == value)
 		return true;
-	if ( node->getValue() > value ) 
+	if ( node->val() > value ) 
 		return _search( node->left, value );
 	else 
 		return _search( node->right, value );
@@ -144,7 +144,7 @@ void BinaryTree<T>::_insert(TreeNode<T>*& node, TreeNode<T>* parent, TreeNode<T>
 		return;
 	}
 
-	if ( node->getValue() > value->getValue() ) 
+	if ( node->val() > value->val() ) 
 		_insert( node->left, node, value );
 	else 
 		_insert( node->right, node, value );
@@ -162,7 +162,7 @@ void BinaryTree<T>::_preOrder(TreeNode<T>*&root, LinkedList<T> &list) {
 	if (!root) {
 		return;
 	} else {
-		list.push_back(root->getValue());
+		list.push_back(root->val());
 		_preOrder(root->left, list);
 		_preOrder(root->right, list);
 	}
@@ -182,7 +182,7 @@ void BinaryTree<T>::_postOrder(TreeNode<T>*&root, LinkedList<T> &list) {
 	} else {
 		_postOrder(root->left, list);
 		_postOrder(root->right, list);
-		list.push_back(root->getValue());
+		list.push_back(root->val());
 	}
 }
 
@@ -199,7 +199,7 @@ void BinaryTree<T>::_inOrder(TreeNode<T>*&root, LinkedList<T> &list) {
 		return;
 	} else {
 		_inOrder(root->left, list);
-		list.push_back(root->getValue());
+		list.push_back(root->val());
 		_inOrder(root->right, list);
 	}
 }
