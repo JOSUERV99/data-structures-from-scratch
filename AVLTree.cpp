@@ -25,7 +25,9 @@ public:
 	void _inOrder(AVLNode<T>* &root, LinkedList<T> &list);
 	LinkedList<T> inOrder();
 	
-	void rotateLeft (AVLNode<T>*& node);
+	void leftRotate (AVLNode<T>*& node);
+	void rightRotate(AVLNode<T>*& node);
+
 	AVLNode<T> *rotateRight(AVLNode<T>* node);
 
 };
@@ -64,7 +66,20 @@ void AVLTree<T>::_inOrder(AVLNode<T>*&root, LinkedList<T> &list) {
 }
 
 template<class T> 
-void AVLTree<T>::rotateLeft(AVLNode<T>*& node) {
+void AVLTree<T>::rightRotate(AVLNode<T>*& node) {
+
+	AVLNode<T>* oldRoot = node;
+	AVLNode<T>* newRoot = node->left;
+
+	oldRoot->left = newRoot->right;
+	newRoot->right = oldRoot;
+	node = newRoot;	   
+
+	_refreshBalance(node);                                   
+}
+
+template<class T> 
+void AVLTree<T>::leftRotate(AVLNode<T>*& node) {
 
 	AVLNode<T>* oldRoot = node;
 	AVLNode<T>* newRoot = node->right;
