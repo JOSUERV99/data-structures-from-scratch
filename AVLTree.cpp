@@ -73,7 +73,11 @@ void AVLTree<T>::rightRotate(AVLNode<T>*& node) {
 
 	oldRoot->left = newRoot->right;
 	newRoot->right = oldRoot;
-	node = newRoot;	   
+	node = newRoot;	 
+
+	// TODO: check this
+	oldRoot->bf++;
+	newRoot->bf--;
 
 	_refreshBalance(node);                                   
 }
@@ -87,6 +91,10 @@ void AVLTree<T>::leftRotate(AVLNode<T>*& node) {
 	oldRoot->right = newRoot->left;
 	newRoot->left = oldRoot;
 	node = newRoot;	   
+
+	// TODO: check this
+	oldRoot->bf--;
+	newRoot->bf++;
 
 	_refreshBalance(node);                                   
 }
@@ -102,23 +110,43 @@ void AVLTree<T>::_insert(AVLNode<T>*& root, AVLNode<T>* parent, AVLNode<T>* newN
 	if (!root)  {
 		root = newNode;
 		root->parent = parent;
+		root->bf = 0;
 		nodesAmount++;
 		return;
 	}
 
-	if (root->val() > newNode->val()) {
-		_insert(root->left, root, newNode);
-	} else {
+	if (root->val() < newNode->val()) {
 		_insert(root->right, root, newNode);
+		root->bf++;
+	} 
+	else {
+		_insert(root->left, root, newNode);
+		root->bf--;
 	}
 
-	root->bf = _height(root->left) - _height(root->right);
+	if (root->bf == 2) {
 
-	if (root->bf == -2) {
+		if (root->right->bf == -1) {
 
+			rightRotate( root->right );
+			leftRotate(  root );
 
-	} else  if (root->bf == 2) {
+		} else {
 
+			leftRotate(  root );
+		}
+
+	} else  if (root->bf == -2) {
+
+		if (root->left->bf == -1) {
+
+			leftRotate( root->left );
+			rightRotate(  root );
+
+		} else {
+
+			rightRotate( root );
+		}
 
 	}
 }
