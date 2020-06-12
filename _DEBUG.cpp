@@ -30,5 +30,6 @@ int main() {
 
 	cout << tree.inOrder() << endl;
 
+
 	return EXIT_SUCCESS;
 }

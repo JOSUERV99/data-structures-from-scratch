@@ -5,7 +5,7 @@ private:
 	int nodesAmount;
 
 	// recursive functions
-	void _insert(AVLNode<T>*& root, AVLNode<T>* parent, AVLNode<T>* value);
+	bool _insert(AVLNode<T>*& root, AVLNode<T>* parent, AVLNode<T>* value);
 	void _remove(AVLNode<T>*& root, T value);
 	void _refreshBalance(AVLNode<T>*&);
 	int  _height(AVLNode<T> *tree);
@@ -35,9 +35,10 @@ public:
 template<class T>
 void AVLTree<T>::_refreshBalance(AVLNode<T>* &node) {
 	if (node) {
+		
 		_refreshBalance(node->left);
 		_refreshBalance(node->right);
-		node->bf = _height(node->left) - _height(node->right);
+		node->bf = _height(node->right) - _height(node->left) ;
 	}
 }
 
@@ -59,8 +60,8 @@ void AVLTree<T>::_inOrder(AVLNode<T>*&root, LinkedList<T> &list) {
 		return;
 	} else {
 		_inOrder(root->left, list);
-		list.push_back(root->bf);
 		list.push_back(root->val());
+		list.push_back(root->bf);
 		_inOrder(root->right, list);
 	}
 }
@@ -68,35 +69,29 @@ void AVLTree<T>::_inOrder(AVLNode<T>*&root, LinkedList<T> &list) {
 template<class T> 
 void AVLTree<T>::rightRotate(AVLNode<T>*& node) {
 
-	AVLNode<T>* oldRoot = node;
-	AVLNode<T>* newRoot = node->left;
+	auto* oldRoot = node;
+	auto* newRoot = node->left;
 
 	oldRoot->left = newRoot->right;
 	newRoot->right = oldRoot;
 	node = newRoot;	 
 
-	// TODO: check this
-	oldRoot->bf++;
-	newRoot->bf--;
-
-	_refreshBalance(node);                                   
+	node->bf = 0;
+   oldRoot->bf = 0;                                 
 }
 
 template<class T> 
 void AVLTree<T>::leftRotate(AVLNode<T>*& node) {
 
-	AVLNode<T>* oldRoot = node;
-	AVLNode<T>* newRoot = node->right;
+	auto* oldRoot = node;
+	auto* newRoot = node->right;
 
 	oldRoot->right = newRoot->left;
 	newRoot->left = oldRoot;
 	node = newRoot;	   
-
-	// TODO: check this
-	oldRoot->bf--;
-	newRoot->bf++;
-
-	_refreshBalance(node);                                   
+   
+   node->bf = 0;
+   oldRoot->bf = 0;                          
 }
 
 template<class T>
@@ -105,55 +100,62 @@ int AVLTree<T>::_height(AVLNode<T>* tree) {
 }
 
 template <class T>
-void AVLTree<T>::_insert(AVLNode<T>*& root, AVLNode<T>* parent, AVLNode<T>* newNode) {
+bool AVLTree<T>::_insert(AVLNode<T>*& root, AVLNode<T>* parent, AVLNode<T>* newNode) {
 
 	if (!root)  {
 		root = newNode;
 		root->parent = parent;
 		root->bf = 0;
 		nodesAmount++;
-		return;
+		return true;
 	}
 
 	if (root->val() < newNode->val()) {
-		_insert(root->right, root, newNode);
-		root->bf++;
+		if ( _insert(root->right, root, newNode) )
+			root->bf++;
 	} 
 	else {
-		_insert(root->left, root, newNode);
-		root->bf--;
+		if ( _insert(root->left, root, newNode) )
+			root->bf--;
 	}
 
 	if (root->bf == 2) {
 
-		if (root->right->bf == -1) {
+		if (root->right->bf < 0) {
 
 			rightRotate( root->right );
 			leftRotate(  root );
-
+			
 		} else {
 
 			leftRotate(  root );
 		}
 
+		return false;
+
 	} else  if (root->bf == -2) {
 
-		if (root->left->bf == -1) {
+		if (root->left->bf < 0) {
 
 			leftRotate( root->left );
 			rightRotate(  root );
-
+		
 		} else {
 
 			rightRotate( root );
 		}
 
-	}
+		return false;
+
+	} 
+
+	return true;
+
 }
 
 template <class T>
 void AVLTree<T>::insert(T value) {
-	AVLNode<T> *node = new AVLNode<T>(value);
+	auto *node = new AVLNode<T>(value);
 	_insert(root, nullptr, node);
 }
 
