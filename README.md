@@ -1,6 +1,6 @@
 # DataStructuresFromScratch
 
-The purpose of this repository is to know, 
+The purpose of this repository is to learn, 
 experiment and implement many of the most 
 used data structures with the only rule that
 each structure must be implemented from 
