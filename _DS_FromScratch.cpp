@@ -4,17 +4,21 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<time.h>
-
 #include<iostream>
 #include<exception>
 
+using namespace std;
+
 // data structures from scratch
-#include"Node.cpp"
-#include"AVLNode.cpp"
+#include"nodes/Node.cpp"
+#include"nodes/AVLNode.cpp"
+#include"nodes/TreeNode.cpp"
+
 #include"Utils.cpp"
-#include"TreeNode.cpp"
-#include"LinkedList.cpp"
-#include"Stack.cpp"
-#include"Queue.cpp"
-#include"BinaryTree.cpp"
-#include"AVLTree.cpp"
+
+#include"canonical/LinkedList.cpp"
+#include"canonical/Stack.cpp"
+#include"canonical/Queue.cpp"
+
+#include"trees/BinaryTree.cpp"
+#include"trees/AVLTree.cpp"
