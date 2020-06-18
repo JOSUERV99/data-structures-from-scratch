@@ -20,13 +20,12 @@ int main() {
 
 	int input[] = {5, 4, 6, 8};
 
-	for (int v : input) {
+	for (int v : input) 
 		tree.insert(v);
-	}
 
 	cout << tree.inOrder() << endl;
 
-	tree.insert(9);
+	tree.remove(4);
 
 	cout << tree.inOrder() << endl;
 
