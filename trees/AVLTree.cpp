@@ -7,9 +7,20 @@ private:
 	// recursive functions
 	bool _insert(AVLNode<T>*& root, AVLNode<T>* parent, AVLNode<T>* value);
 	bool _remove(AVLNode<T>*& root, T value);
-	void _refreshBalance(AVLNode<T>*&);
+	void _refreshBalance(AVLNode<T>*& node);
 	int  _height(AVLNode<T> *tree);
 	bool _update(AVLNode<T>*& root);
+
+	// auxiliary functions
+	void leftRotate (AVLNode<T>*& node);
+	void rightRotate(AVLNode<T>*& node);
+
+	AVLNode<T> *getMaxValueAtLeft(AVLNode<T>* root);
+
+	// visualize functions
+	void   _inOrder(AVLNode<T>* &root, LinkedList<T> &list);
+	void _postOrder(AVLNode<T>* &root, LinkedList<T> &list);
+	void  _preOrder(AVLNode<T>* &root, LinkedList<T> &list);
 
 public:
 	// testing
@@ -21,32 +32,15 @@ public:
 	// main functions
 	void remove(T value);
 	void insert(T value);
-	int size();
 
-	void _inOrder(AVLNode<T>* &root, LinkedList<T> &list);
-	LinkedList<T> inOrder();
-	
-	void leftRotate (AVLNode<T>*& node);
-	void rightRotate(AVLNode<T>*& node);
-
-	AVLNode<T> *rotateRight(AVLNode<T>* node);
-
-};
-
-template<class T>
-void AVLTree<T>::_refreshBalance(AVLNode<T>* &node) {
-	if (node) {
-		
-		_refreshBalance(node->left);
-		_refreshBalance(node->right);
-		node->bf = _height(node->right) - _height(node->left) ;
+	int size() {
+		return nodesAmount;
 	}
-}
 
-template<class T>
-int AVLTree<T>::size() {
-	return nodesAmount;
-}
+	LinkedList<T> inOrder();
+	LinkedList<T> preOrder();
+	LinkedList<T> postOrder();
+};
 
 template <class T>
 LinkedList<T> AVLTree<T>::inOrder() {
@@ -56,13 +50,59 @@ LinkedList<T> AVLTree<T>::inOrder() {
 }
 
 template <class T>
+LinkedList<T> AVLTree<T>::preOrder() {
+	LinkedList<T> list;
+	_preOrder(root, list);
+	return list;
+}
+
+template <class T>
+void AVLTree<T>::_preOrder(AVLNode<T>*&root, LinkedList<T> &list) {
+	if (!root) {
+		return;
+	} else {
+		list.push_back(root->val());
+		_preOrder(root->left, list);
+		_preOrder(root->right, list);
+	}
+}
+
+template <class T>
+LinkedList<T> AVLTree<T>::postOrder() {
+	LinkedList<T> list;
+	_postOrder(root, list);
+	return list;
+}
+
+template <class T>
+void AVLTree<T>::_postOrder(AVLNode<T>*&root, LinkedList<T> &list) {
+	if (!root) {
+		return;
+	} else {
+		_postOrder(root->left, list);
+		_postOrder(root->right, list);
+		list.push_back(root->val());
+	}
+}
+
+template<class T>
+void AVLTree<T>::_refreshBalance(AVLNode<T>* &node) {
+	if (node) {
+		
+		_refreshBalance(node->left);
+		_refreshBalance(node->right);
+
+		node->bf = _height(node->right) - _height(node->left)  ;
+	}
+}
+
+template <class T>
 void AVLTree<T>::_inOrder(AVLNode<T>*&root, LinkedList<T> &list) {
 	if (!root) {
 		return;
 	} else {
 		_inOrder(root->left, list);
 		list.push_back(root->val());
-		list.push_back(root->bf);
 		_inOrder(root->right, list);
 	}
 }
@@ -77,8 +117,7 @@ void AVLTree<T>::rightRotate(AVLNode<T>*& node) {
 	newRoot->right = oldRoot;
 	node = newRoot;	 
 
-	node->bf = 0;
-   oldRoot->bf = 0;                                 
+	node->bf = oldRoot->bf = 0;                                 
 }
 
 template<class T> 
@@ -91,13 +130,12 @@ void AVLTree<T>::leftRotate(AVLNode<T>*& node) {
 	newRoot->left = oldRoot;
 	node = newRoot;	   
    
-   node->bf = 0;
-   oldRoot->bf = 0;                          
+   node->bf = oldRoot->bf = 0;                          
 }
 
 template<class T>
 int AVLTree<T>::_height(AVLNode<T>* tree) {
-	return tree ? 1 + _height(tree->left) + _height(tree->right): 0;
+	return tree ? 1 + ( _height(tree->left) | _height(tree->right) ): 0;
 }
 
 template <class T>
@@ -181,28 +219,46 @@ bool AVLTree<T>::_remove(AVLNode<T>* &node, T value) {
 		}
 		else {
 
+			AVLNode<T> *aux = nullptr;
+
 			if ( !node->left || !node->right ) {
-				auto *aux = node;
+
+				aux = node;
 				node = node->left ? node->left : node->right;
 				delete aux;
 			}
 			else {
 
-				// auto *maxValueAtLeft = nullptr;
-				// TODO: check some cases with both childs
+				auto *maxValueAtLeft = getMaxValueAtLeft(node);
 
+				aux = node;
 
+				maxValueAtLeft->left = maxValueAtLeft != node->left ? node->left : maxValueAtLeft->left;
+				maxValueAtLeft->right = node->right;
+				node = maxValueAtLeft;
+
+				_refreshBalance( node );
+
+				delete aux;
+				nodesAmount--;
 			}
 
 			finded = true;
 		}
-
-		_refreshBalance(root);
-
-		_update(root);
 	}
 
 	return finded;
+}
+
+template <class T>
+AVLNode<T> *AVLTree<T>::getMaxValueAtLeft(AVLNode<T>* root) {
+
+	auto *iter = root->left;
+
+	while (iter->right)
+		iter = iter->right;
+
+	return iter;
 }
 
 template <class T>

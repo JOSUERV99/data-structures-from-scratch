@@ -18,16 +18,15 @@ int main() {
 
 	AVLTree<int> tree;
 
-	int input[] = {5, 4, 6, 8};
+	int input[] = {5, 4, 6, 3, 8, 7};
 
 	for (int v : input) 
 		tree.insert(v);
 
 	cout << tree.inOrder() << endl;
 
-	tree.remove(4);
-
-	cout << tree.inOrder() << endl;
+	tree.remove(5);
+	cout << tree.postOrder() << endl;
 
 
 	return EXIT_SUCCESS;
