@@ -19,6 +19,7 @@ using namespace std;
 #include"canonical/LinkedList.cpp"
 #include"canonical/Stack.cpp"
 #include"canonical/Queue.cpp"
+#include"canonical/PriorityQueue.cpp"
 
 #include"trees/BinaryTree.cpp"
 #include"trees/AVLTree.cpp"

@@ -1,45 +1,20 @@
-template <class T>
-class LinkedList {
-public:
-	// attributes
-	int length;
-	Node<T> *begin, *end;
+#include"LinkedList.h"
 
-	// builders
-	LinkedList(): length(0), begin(nullptr), end(nullptr) {} // default builder
+template<class T>
+T LinkedList<T>::first() {
+	if ( isEmpty() )
+		exit(1);
+	
+	return begin->getValue();
+}
 
-	// methods
-	int size(); // size of the list
-	int count(T); // count all the aparissons of the given T element
-
-	bool contains(T); // true if contains the T element
-	bool isEmpty(); // true if the length equals zero
-
-	void push_back(T); // add an element to the end
-	void push_front(T); // add an element to the begin
-	T pop_back(); // pop and return the last value
-	T pop_front(); // pop and return the first value
-
-	void setValue(int, T); // change the T element of the node on the given index
-	void erase(T); // erase the T element
-	void clear(); // clear the list, delete every node
-
-	LinkedList<T> subList(int,int); // return a sublist of the range
-
-	// overwriting operators
-	friend ostream& operator << (ostream &o,const LinkedList<T> &p) {
-    	Node<T> *iter = p.begin;
-		o << "[ ";
-		while(iter) {
-			o << iter->getValue();
-			if (iter->next)
-				o << ", ";
-			iter = iter->next;
-		}
-		o << " ]";
-		return o;
-	}
-};
+template<class T>
+T LinkedList<T>::last() {
+	if ( isEmpty() )
+		exit(1);
+	
+	return end->getValue();
+}
 
 template <class T>
 int LinkedList<T>::size() {
@@ -48,6 +23,10 @@ int LinkedList<T>::size() {
 
 template <class T>
 int LinkedList<T>::count(T value) {
+
+	if ( isEmpty() )
+		return 0;
+
 	int aparissons = 0;
 
 	Node<T>* iter = begin;
@@ -62,7 +41,8 @@ int LinkedList<T>::count(T value) {
 
 template <class T>
 bool LinkedList<T>::contains(T value) {
-	if (!begin)
+
+	if ( isEmpty() )
 		return false;
 
 	Node<T> *iter = begin;
@@ -82,7 +62,8 @@ bool LinkedList<T>::isEmpty() {
 
 template <class T>
 void LinkedList<T>::push_back(T value) {
-	if (!begin) {
+
+	if ( isEmpty() ) {
 		begin = end = new Node<T>(value);
 		length++;
 		return;
@@ -99,42 +80,28 @@ void LinkedList<T>::setValue(int index, T value) {
 	if (index >= 0 && index < length) {
 
 		Node<T> *iter = begin;
-		while(index--) 
-			iter = iter->next;
-
+		while(index--) iter = iter->next;
 		iter->value = value;
-	}
+	} 
 }
 
 template <class T>
 void LinkedList<T>::erase(T value) {
 
-	if (!begin)
+	if ( isEmpty() )
 		return;
 
-	Node<T> *iter = begin;
+	Node<T> *current = begin, *previous = nullptr;
 
-	if (begin->getValue() == value) {
-		begin = begin->next;
-	} else {
-		Node<T> *previous = nullptr;
-		while (iter) {
-			if (iter->getValue() == value)
-				break;
-
-			previous = iter;
-			iter = iter->next;
-		}
-
-		if (!iter)
-			return;
-
-		previous->next = iter->next;
+	while (current && current->getValue() != value) {
+		previous = current;
+		current = current->next;
 	}
 	
-	if (iter) {
+	if (current) {
+		previous->next = current->next;
+		delete current;
 		length--;
-		delete iter;
 	}
 }
 
@@ -154,9 +121,9 @@ template <class T>
 LinkedList<T> LinkedList<T>::subList(int startIndex, int endIndex) {
 	
 	LinkedList<T> newList;
-	if ( startIndex > endIndex || begin == nullptr || length <= endIndex ) {
+
+	if ( startIndex > endIndex || begin == nullptr || length <= endIndex ) 
 		return newList;
-	}
 
 	int counter = 0;
 	Node<T> *iter = begin;

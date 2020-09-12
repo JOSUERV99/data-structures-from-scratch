@@ -13,20 +13,27 @@ class Object {
 	}
 };
 
-
 int main() {
 
-	AVLTree<int> tree;
+	PriorityQueue<int> pqueue;
 
 	int input[] = {5, 4, 6, 3, 8, 7};
 
 	for (int v : input) 
-		tree.insert(v);
+		pqueue.push(v);
 
-	cout << tree.inOrder() << endl;
+	while ( !pqueue.isEmpty() ) {
+		std::cout << pqueue.pop() << std::endl;
+		cout << pqueue << ", length: " << pqueue.size() << endl;
+	}
 
-	tree.remove(5);
-	cout << tree.postOrder() << endl;
+	// LinkedList<int> l;
+
+	// int input[] = {5, 4, 6, 3, 8, 7};
+
+	// for (int v : input) 
+	// 	l.push_back(v);
+
 
 
 	return EXIT_SUCCESS;
