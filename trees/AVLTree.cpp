@@ -1,46 +1,14 @@
-template <class T>
-class AVLTree : public BinaryTree<T> {
-private:
-	// attributes
-	int nodesAmount;
+#ifndef __AVLT__
+	#include"AVLTree.h"
+#endif 
 
-	// recursive functions
-	bool _insert(AVLNode<T>*& root, AVLNode<T>* parent, AVLNode<T>* value);
-	bool _remove(AVLNode<T>*& root, T value);
-	void _refreshBalance(AVLNode<T>*& node);
-	int  _height(AVLNode<T> *tree);
-	bool _update(AVLNode<T>*& root);
+#ifndef __LL__
+	#include"../canonical/LinkedList.h"
+#endif
 
-	// auxiliary functions
-	void leftRotate (AVLNode<T>*& node);
-	void rightRotate(AVLNode<T>*& node);
-
-	AVLNode<T> *getMaxValueAtLeft(AVLNode<T>* root);
-
-	// visualize functions
-	void   _inOrder(AVLNode<T>* &root, LinkedList<T> &list);
-	void _postOrder(AVLNode<T>* &root, LinkedList<T> &list);
-	void  _preOrder(AVLNode<T>* &root, LinkedList<T> &list);
-
-public:
-	// testing
-	AVLNode<T> *root; //////////////////////
-
-	// builders
-	AVLTree(): nodesAmount(0), root(nullptr) {}
-
-	// main functions
-	void remove(T value);
-	void insert(T value);
-
-	int size() {
-		return nodesAmount;
-	}
-
-	LinkedList<T> inOrder();
-	LinkedList<T> preOrder();
-	LinkedList<T> postOrder();
-};
+#ifndef __AVLN__
+	#include"../nodes/AVLNode.h"
+#endif
 
 template <class T>
 LinkedList<T> AVLTree<T>::inOrder() {
@@ -144,12 +112,9 @@ bool AVLTree<T>::_update(AVLNode<T>*& root) {
 	if (root->bf == 2) {
 
 		if (root->right->bf < 0) {
-
 			rightRotate( root->right );
 			leftRotate(  root );
-			
 		} else {
-
 			leftRotate(  root );
 		}
 
@@ -158,12 +123,9 @@ bool AVLTree<T>::_update(AVLNode<T>*& root) {
 	} else  if (root->bf == -2) {
 
 		if (root->left->bf < 0) {
-
 			leftRotate( root->left );
 			rightRotate(  root );
-		
 		} else {
-
 			rightRotate( root );
 		}
 
@@ -195,7 +157,6 @@ bool AVLTree<T>::_insert(AVLNode<T>*& root, AVLNode<T>* parent, AVLNode<T>* newN
 	}
 
 	return _update(root);
-
 }
 
 template<class T>
@@ -204,20 +165,15 @@ bool AVLTree<T>::_remove(AVLNode<T>* &node, T value) {
 	bool finded = false;
 
 	if (node) {
+		
+		auto *current = node->val() > value ? root->left : node->val() == value ? nullptr : root->right;
 
-		if (node->val() > value) {
+		if (!current) {
+			finded = _remove(current, value);
+			if (finded)	
+				node->bf--;
 
-			finded = _remove(root->left, value);
-			if (finded)	node->bf--;
-
-		}
-		else if (node->val() < value) {
-
-			finded = _remove(node->right, value);
-			if (finded)	node->bf--;
-
-		}
-		else {
+		} else {
 
 			AVLNode<T> *aux = nullptr;
 

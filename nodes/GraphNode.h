@@ -1,7 +1,9 @@
+#define __GN__
+
 template <class T>
-class Heap {
+class GraphNode {
 public:
 
 private:
-    
+
 };

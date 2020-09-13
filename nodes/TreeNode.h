@@ -1,3 +1,5 @@
+#define __TN__
+
 template <class T>
 class TreeNode {
 public:

@@ -1,3 +1,5 @@
+#define __AVLN__
+
 template <class T>
 class AVLNode {
 public:

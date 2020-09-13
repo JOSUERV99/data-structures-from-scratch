@@ -1,3 +1,5 @@
+#define __N__
+
 template <class T>
 class Node {
 public:

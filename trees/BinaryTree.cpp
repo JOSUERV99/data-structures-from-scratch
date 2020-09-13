@@ -1,40 +1,14 @@
-template <class T>
-class BinaryTree {
-private:
-	// main components
-	TreeNode<T> *root;
-	int nodesAmount;
+#ifndef __BT__
+	#include"BinaryTree.h"
+#endif
 
-	// recursive functions
-	void _insert   (TreeNode<T>*& root, TreeNode<T>* parent, TreeNode<T>* value);
-	void _preOrder (TreeNode<T>*& root, LinkedList<T>& collection);
-	void _postOrder(TreeNode<T>*& root, LinkedList<T>& collection);
-	void _inOrder  (TreeNode<T>*& root, LinkedList<T>& collection);
-	void _remove   (TreeNode<T>*& root, T value);
-	bool _search   (TreeNode<T>*& root, T value);
+#ifndef __LL__
+	#include"../canonical/LinkedList.h"
+#endif
 
-	// auxiliar functions
-	TreeNode<T>* _changeRoot_Right(TreeNode<T>*& node);
-	TreeNode<T>* _changeRoot_Left(TreeNode<T>*& node);
-
-public:
-	// builders
-	BinaryTree(): root(nullptr), nodesAmount(0) {}
-
-	// main functions
-	void insert  (T value);
-	void remove  (T value);
-	bool search  (T value);
-	bool contains(T value);
-
-	// utils
-	LinkedList<T>  preOrder();
-	LinkedList<T>   inOrder();
-	LinkedList<T> postOrder();
-
-	int deep(T value);
-	int size();
-};
+#ifndef __TN__
+	#include"../nodes/TreeNode.h"
+#endif
 
 template <class T>
 int BinaryTree<T>::size() {	
@@ -176,7 +150,7 @@ LinkedList<T> BinaryTree<T>::postOrder() {
 }
 
 template <class T>
-void BinaryTree<T>::_postOrder(TreeNode<T>*&root, LinkedList<T> &list) {
+void BinaryTree<T>::_postOrder(TreeNode<T>*& root, LinkedList<T>& list) {
 	if (!root) {
 		return;
 	} else {

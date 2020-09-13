@@ -1,5 +1,5 @@
 template <class T>
-class Treap {
+class Trie {
 public:
 
 private:

@@ -10,9 +10,9 @@
 using namespace std;
 
 // data structures from scratch
-#include"nodes/Node.cpp"
-#include"nodes/AVLNode.cpp"
-#include"nodes/TreeNode.cpp"
+#include"nodes/Node.h"
+#include"nodes/AVLNode.h"
+#include"nodes/TreeNode.h"
 
 #include"Utils.cpp"
 

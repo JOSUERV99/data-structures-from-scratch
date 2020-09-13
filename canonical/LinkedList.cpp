@@ -99,7 +99,12 @@ void LinkedList<T>::erase(T value) {
 	}
 	
 	if (current) {
-		previous->next = current->next;
+		
+		if (current != begin)
+			previous->next = current->next;
+		else
+			begin = begin->next;
+
 		delete current;
 		length--;
 	}

@@ -1,0 +1,6 @@
+class BTree {
+public:
+	
+private:
+
+};

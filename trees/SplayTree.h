@@ -1,5 +1,5 @@
 template <class T>
-class GraphNode {
+class SplayTree {
 public:
 
 private:

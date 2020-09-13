@@ -1,5 +1,5 @@
 template <class T>
-class NTree {
+class RBTree {
 public:
 
 private:
